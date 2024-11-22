@@ -3,94 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loop Form</title>
+    <title>Laidanpage</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #282c34;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            margin: 50px;
         }
-        #popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1000;
-            width: 300px;
-            padding: 20px;
-            background-color: white;
-            border: 1px solid #ccc;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+        h1 {
+            font-size: 2.5em;
+            margin: 0.5em 0;
         }
-        #overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 999;
+
+        h2 {
+            font-size: 1.5em;
+            margin: 0.5em 0;
         }
+
         button {
-            padding: 10px 15px;
-            background-color: #007BFF;
+            padding: 15px 25px;
+            font-size: 16px;
+            background-color: #ff5722;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
         }
+
         button:hover {
-            background-color: #0056b3;
+            background-color: #e64a19;
+            transform: scale(1.1);
+        }
+
+      
+        .ripple {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, yellow, red);
+            border-radius: 50%;
+            animation: rippleEffect 1.5s ease-out forwards;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        @keyframes rippleEffect {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(5);
+                opacity: 0;
+            }
+        }
+
+       
+        .explosion {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background-size: cover; 
+            background-position: center;
+            animation: explode 1.5s ease-out forwards;
+            pointer-events: none;
+            border-radius: 100%; 
+            opacity: 1; 
+        }
+
+        @keyframes explode {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            70% {
+                transform: scale(2);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        .text {
+            position: absolute;
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffcc00;
+            opacity: 0;
+            animation: appear 1.2s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes appear {
+            0% {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10px);
+                opacity: 0;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Click the Link to Trigger Loop Form</h1>
-    <a href="#" id="trigger">Click Me</a>
-
-    <div id="overlay" style="display: none;"></div>
-    <div id="popup" style="display: none;">
-        <h2>Persistent Form</h2>
-        <p>You can't get rid of this form!</p>
-        <button id="stayButton">Stay Here</button>
-    </div>
+    <h1>Gusto nimo Mabalan imo future?</h1>
+    <h2>See your future in one click!</h2>
+    <button id="boomButton">Click the Future!</button>
 
     <script>
-        const trigger = document.getElementById("trigger");
-        const overlay = document.getElementById("overlay");
-        const popup = document.getElementById("popup");
-        const stayButton = document.getElementById("stayButton");
-
-        // Function to show the popup and overlay
-        function showPopup() {
-            overlay.style.display = "block";
-            popup.style.display = "block";
+        function getRandomPosition() {
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+            const randomX = Math.random() * screenWidth;
+            const randomY = Math.random() * screenHeight;
+            return { x: randomX, y: randomY };
         }
 
-        // Prevent back navigation
-        function preventBackNavigation() {
-            history.pushState(null, null, location.href);
-            window.addEventListener("popstate", () => {
-                history.pushState(null, null, location.href);
+        document.getElementById("boomButton").addEventListener("click", () => {
+            const { x, y } = getRandomPosition();
+
+         
+            const ripple = document.createElement("div");
+            ripple.className = "ripple";
+            ripple.style.left = `${x - 75}px`; 
+            ripple.style.top = `${y - 75}px`; 
+            document.body.appendChild(ripple);
+
+            
+            const explosion = document.createElement("div");
+            explosion.className = "explosion";
+            explosion.style.left = `${x - 75}px`; 
+            explosion.style.top = `${y - 75}px`; 
+            explosion.style.backgroundImage = "url('https://scontent.fceb8-1.fna.fbcdn.net/v/t39.30808-6/467815710_2039365109849946_1919923060055548471_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeHLspZx0Kp_WOUiIqMudmVPVS5p0hw0o_lVLmnSHDSj-YbfHRVi2tjTRYbHpmwICb11CZnJYn37x-3fYKXi7ueB&_nc_ohc=13yYLC-x1PMQ7kNvgFLYnDz&_nc_zt=23&_nc_ht=scontent.fceb8-1.fna&_nc_gid=AZ2Mg_thZK8wqeNK_7iR1LW&oh=00_AYDq7zxOrg1_EXJXPZsC6Z55uVNqySFqWc1OwvIgtMnl0w&oe=6745F18F')";
+            document.body.appendChild(explosion);
+
+          
+            const text = document.createElement("div");
+            text.className = "text";
+            text.innerText = "Boom! Uto-Uto jud maong dali ra masakitan (GABAAN)🎉";
+            text.style.left = `${x - 30}px`; 
+            text.style.top = `${y}px`; 
+            document.body.appendChild(text);
+
+         
+            ripple.addEventListener("animationend", () => {
+                ripple.remove();
             });
-        }
-
-        // Persistent popup functionality
-        trigger.addEventListener("click", (event) => {
-            event.preventDefault();
-            showPopup();
-            preventBackNavigation();
-        });
-
-        // Stay button to prevent popup from disappearing
-        stayButton.addEventListener("click", () => {
-            alert("You have to stay!");
-        });
-
-        // Re-show popup if user tries to navigate away
-        window.addEventListener("beforeunload", (event) => {
-            event.preventDefault();
-            event.returnValue = ""; // For compatibility
+            explosion.addEventListener("animationend", () => {
+                explosion.remove();
+            });
+            text.addEventListener("animationend", () => {
+                text.remove();
+            });
         });
     </script>
 </body>
